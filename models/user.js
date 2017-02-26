@@ -1,10 +1,8 @@
 let User = require('../lib/mongo').User;
 
 module.exports = {
-  create: function(name) {
-	  return User.create({
-      name: name
-    });
+  create: function(options) {
+	  return User.create(options);
   },
   // 返回user模型
   findOneUser: function(name) {
@@ -12,30 +10,20 @@ module.exports = {
       name: name
     });
   },
-  setThreeQuestion: function(username, questionIds) {
+  // 设置更新昵称,更新密码，头像，tags，设置今天三个问题
+  updateOneUser: function(name, type, item) {
     return User.findOneAndUpdate({
-      name: username
+      name: name, 
     }, {
-      $set:{
-        todayQuestions: questionIds
+      $set: {
+        [type]: item
       }
     });
   },
-  // 设置更新昵称或者更新密码
-  updateOneUser: function(name) {
-    
-  },
-  addTags: function(tags) {
-    
-  },
-  updateTags: function(tags) {
-
-  },
   // manage
-  deleteUser: function() {
-
+  removeUser: function(name) {
+    return User.findOneAndRemove({
+      name: name
+    });
   },
-  editUser: function() {
-
-  }
 }
