@@ -5,19 +5,19 @@ module.exports = {
   createAnswer: function(opts) {
     return Answer.create(opts)
   },
-  likeAnswer: function(answerId) {
-    return Answer.where({ _id: answerId }).update({
+  likeAnswer: function(id) {
+    return Answer.where({ _id: id }).update({
       $inc: {
         likes: 1
       }
-    })
+    });
   },
   // 广播问题回答
   getAnswers: function(questionId) {
     return Answer.find({
       targetType: 1,
       questionId: questionId
-    })
+    });
   },
   // 设置精品回答
   setRecommend: function(answerId, bool) {
@@ -25,19 +25,21 @@ module.exports = {
       $set: {
         recommended: bool
       }
-    })
+    });
   },
   // 精品回答
-  getAnswer: function(questionId) {
-    // return Answer.where({
-    //   questionId: questionId,
-    //   privacy: false,
-    //   recommended: true,
-
-    // })
+  getAnswer: function(id) {
+    return Answer.findOne({
+      questionId: id,
+      recommended: true
+    });
   },
   // 获取历史, 每次获取前十条，分页
-  getAnswersByUserId: function(userId) {
-
+  getAnswersByUserId: function(userId, num) {
+    return Answer.find({
+      _id: userId 
+    }).sort({
+      createDate: -1
+    }).skip(10 * num);
   }
 }

@@ -5,23 +5,45 @@ module.exports = {
   getThreeQuestion: function() {
     
   },
+
   likeQuestion: function(id) {
-    
+    Question
+      .where({_id: id})
+      .update({
+        $inc: {
+          likes: 1
+        }
+      });
   },
+
   getBroadcastQuestion: function() {
-
+    return Question
+      .findOne({ onBroadcast: true }) // 是否为广播问题
   },
-  getQuestionById(id) {
 
+  getQuestionById(id) {
+    return Question.findOne({
+      _id: id
+    });
   },
   // manage
-  createQuestion: function(question) {
-	  
+  createQuestion: function(opts) {
+	  Question.create(opts);
   },
-  editQuestion: function(question) {
-
+  editQuestion: function(id, opts) {
+    Question
+      .where({_id: id})
+      .update({
+        $set: opts
+      });
   },
-  selectBroadcastingQuestion: function(questionId) {
-
+  setBroadcastingQuestion: function(id, bool) {
+    Question
+      .where({_id: id})
+      .update({
+        $set: {
+          bool: bool
+        }
+      });
   },
 }

@@ -22,4 +22,16 @@ router.get('/get', async function(req, res, next) {
 	console.log(req.session.user)
 })
 
+router.post('/signin', async function() {
+
+});
+
+router.post('/signup', async function() {
+
+});
+
+router.post('/forget', async function() {
+
+});
+
 module.exports = router;

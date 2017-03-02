@@ -6,6 +6,4 @@ module.exports = function(app) {
 	app.use('/mine', require('./mine'));
 	app.use('/question', require('./question'));
 	app.use('/manage', require('./manage'));
-
-	
 }
