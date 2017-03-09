@@ -1,4 +1,5 @@
 let Question = require('../lib/mongo').Question;
+let UserModel = require('./user');
 
 module.exports = {
   // user
@@ -6,8 +7,9 @@ module.exports = {
     
   },
 
-  likeQuestion: function(id) {
-    Question
+  // 根据问题id给问题点赞
+  likeQuestion: async function(id) {
+    await Question
       .where({_id: id})
       .update({
         $inc: {

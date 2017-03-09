@@ -1,16 +1,22 @@
+/*
+* 这里主要处理有关用户的地方
+*/
+
 let express = require('express');
 let router = express.Router();
 let UserModel = require('../models/user');
 let TagModel = require('../models/tags');
+let checkLogin = require('./middlewares');
 let crypto = require('crypto');
 
 function md5 (text) {
   return crypto.createHash('md5').update(text).digest('hex');
 };
 
+// 获取所有tags
 router.post('/get/tags', async function(req, res, next) {
 	try {
-		let url = await TagModel.getUrlsByTag(["90后"]);
+		// let url = await TagModel.getUrlsByTag(["90后"]);
 		let tags = await TagModel.getAllTags();
 		res.send({
 			"code":200,
@@ -31,10 +37,13 @@ router.post('/get/tags', async function(req, res, next) {
 // 设置标签
 router.post('/set/profile', async function(req, res, next) {
 	try {
-		await UserModel.updateOneUser({
+		let name = req.session.name;
+
+		await UserModel.updateOneUser(name, {
 			hobbies: req.body.hobbies
 		});
 
+		// 成功设置标签
 		res.send({
 			"code":200,
 			"enmsg":"ok",

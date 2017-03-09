@@ -11,6 +11,11 @@ module.exports = {
       name: name
     });
   },
+
+  findOne: function(opts) {
+    return User.findOne(opts);
+  },
+
   updateTodayQuestion: async function(id) {
   },
   // mine

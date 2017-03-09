@@ -5,8 +5,8 @@ module.exports = {
   createAnswer: function(opts) {
     return Answer.create(opts)
   },
-  likeAnswer: function(id) {
-    return Answer.where({ _id: id }).update({
+  likeAnswer: async function(id) {
+    await Answer.where({ _id: id }).update({
       $inc: {
         likes: 1
       }
