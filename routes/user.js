@@ -80,6 +80,7 @@ router.post('/signin', async function(req, res, next) {
 		// 成功
 		if(user.password === password) {
 			req.session.name = name;
+			req.session._id = user._id;
 			return res.send({
 				"code":200,
 				"enmsg":"ok",

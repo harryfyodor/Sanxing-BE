@@ -7,6 +7,10 @@ module.exports = {
     
   },
 
+  fineOne: function(opts) {
+    return Question.findOne(opts);
+  },
+
   // 根据问题id给问题点赞
   likeQuestion: async function(id) {
     await Question
@@ -20,7 +24,9 @@ module.exports = {
 
   getBroadcastQuestion: function() {
     return Question
+      .where({targetType: 1})
       .findOne({ onBroadcast: true }) // 是否为广播问题
+      .select("title detail likes");
   },
 
   getQuestionById(id) {
