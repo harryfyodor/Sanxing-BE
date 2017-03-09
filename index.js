@@ -8,6 +8,9 @@ let config = require('./config');
 let app = express();
 let session = require('express-session');
 let RedisStore = require('connect-redis')(session);
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 app.use(session({
   store: new RedisStore(config.redisOptions),
@@ -24,17 +27,17 @@ let routes = require('./routes');
 
 // if(process.env.NODE_ENV === 'production') {
     // 正常请求的日志
-    app.use(expressWinston.logger({
-      transports: [
-        new (winston.transports.Console)({
-          json: true,
-          colorize: true
-        }),
-        new winston.transports.File({
-          filename: 'logs/success.log'
-        })
-      ]
-    }));
+    // app.use(expressWinston.logger({
+    //   transports: [
+    //     new (winston.transports.Console)({
+    //       json: true,
+    //       colorize: true
+    //     }),
+    //     new winston.transports.File({
+    //       filename: 'logs/success.log'
+    //     })
+    //   ]
+    // }));
 
     // 错误请求的日志
     app.use(expressWinston.errorLogger({

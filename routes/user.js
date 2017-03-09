@@ -1,37 +1,136 @@
 let express = require('express');
 let router = express.Router();
 let UserModel = require('../models/user');
+let TagModel = require('../models/tags');
+let crypto = require('crypto');
 
-router.get('/', async function(req, res, next) {
+function md5 (text) {
+  return crypto.createHash('md5').update(text).digest('hex');
+};
+
+router.post('/get/tags', async function(req, res, next) {
 	try {
-		let result = await UserModel.create('helllo');
-		// let user = await UserModel.findOneUser({name:'hello'})
-		console.log('CUOWU')
-		// console.log(user);
-	} catch (err) {
-		console.log(err);
+		let url = await TagModel.getUrlsByTag(["90后"]);
+		let tags = await TagModel.getAllTags();
+		res.send({
+			"code":200,
+			"enmsg":"ok",
+			"cnmsg":"成功",
+			"data": tags
+		});
+	} catch(err) {
+		res.send({
+			"code":500,
+			"enmsg":"server error",
+			"cnmsg":"服务器内部错误",
+			"data":null
+		});
 	}
 });
 
-router.get('/set', async function(req, res, next) {
-	let user = await UserModel.setThreeQuestion("helllo",[1,2,23,3])
-	console.log(user)
+// 设置标签
+router.post('/set/profile', async function(req, res, next) {
+	try {
+		await UserModel.updateOneUser({
+			hobbies: req.body.hobbies
+		});
+
+		res.send({
+			"code":200,
+			"enmsg":"ok",
+			"cnmsg":"成功",
+			"data":null
+		});
+	} catch(err) {
+		res.send({
+			"code":500,
+			"enmsg":"server error",
+			"cnmsg":"服务器内部错误",
+			"data":null
+		});
+	}
 });
 
-router.get('/get', async function(req, res, next) {
-	console.log(req.session.user)
-})
+// 登录功能
+router.post('/signin', async function(req, res, next) {
+	try {
+		let name = req.body.name,
+			password = md5(req.body.password);
 
-router.post('/signin', async function() {
+		let user = await UserModel.findOneUser(name);
 
+		// 未注册
+		if(!user) {
+			return res.send({
+				"code":200,
+				"enmsg":"not sign up",
+				"cnmsg":"您还没有注册过",
+				"data":null
+			});
+		}
+		// 成功
+		if(user.password === password) {
+			req.session.name = name;
+			return res.send({
+				"code":200,
+				"enmsg":"ok",
+				"cnmsg":"成功",
+				"data":null
+			});
+		}
+		// 密码错误
+		res.send({
+			"code":200,
+			"enmsg":"wrong password",
+			"cnmsg":"密码错误",
+			"data":null
+		});
+	} catch (err) {
+		console.log(err);
+		res.send({
+			"code":500,
+			"enmsg":"server error",
+			"cnmsg":"服务器内部错误",
+			"data":null
+		});
+	}
 });
 
-router.post('/signup', async function() {
+// 注册功能
+router.post('/signup', async function(req, res, next) {
+	try {
+		let name = req.body.name,
+			password = md5(req.body.password);
 
-});
+		await UserModel.create({
+			name: name,
+			password: password
+		});
 
-router.post('/forget', async function() {
-
+		// 成功注册！
+		res.send({
+			"code":200,
+			"enmsg":"ok",
+			"cnmsg":"成功",
+			"data":null
+		});
+	} catch (err) {
+		if(err.code === 11000) {
+			res.send({
+				"code":200,
+				"enmsg":"duplicate name",
+				"cnmsg":"用户名已被注册",
+				"data":null
+			});
+		} else {
+			res.send({
+				"code":500,
+				"enmsg":"server error",
+				"cnmsg":"服务器内部错误",
+				"data":null
+			});
+		}
+	}
 });
 
 module.exports = router;
