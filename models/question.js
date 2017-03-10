@@ -7,10 +7,12 @@ module.exports = {
     
   },
 
-  // 根据问题id给问题点赞
   likeQuestion: async function(id) {
-    await Question
-      .where({_id: id})
+    let user = await UserModel.findOne({_id: '58c0cf6993fd870e725a668d'});
+    console.log(user);
+    let a = Question.
+    Question
+      .where({_id: '58c0cf6993fd870e725a668d'})
       .update({
         $inc: {
           likes: 1
