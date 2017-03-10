@@ -54,18 +54,83 @@ router.post("/like/answer", async function(req, res, next) {
 // 回答问题接口
 router.post("/answer", async function(req, res, next) {
   try {
+    let {
+      questionId,
+      detail,
+      type,
+      targetType,
+      privacy,
+      questionDetail,
+      picture
+    } = req.body;
+    let userId = this.session._id;
 
+    // 创建问题的回答
+    await AnswerModal.createAnswer({
+      questionId,
+      detail,
+      type,
+      targetType,
+      privacy,
+      questionDetail,
+      picture,
+      userId
+    });
+
+    res.send({
+			"code":200,
+			"enmsg":"ok",
+			"cnmsg":"成功",
+			"data": null
+		});
   } catch(err) {
-    
+			res.send({
+        "code":500,
+        "enmsg":"server error",
+        "cnmsg":"服务器内部错误",
+        "data": null
+      });
   }
 });
 
-router.post("/broadcast/question", async function(req, res, next) {
+router.get("/broadcast/question", async function(req, res, next) {
+  try {
+    let question = QuestionModel.getBroadcastQuestion();
 
+    res.send({
+			"code":200,
+			"enmsg":"ok",
+			"cnmsg":"成功",
+			"data": question
+		});
+  } catch(err) {
+    res.send({
+      "code":500,
+      "enmsg":"server error",
+      "cnmsg":"服务器内部错误",
+      "data": null
+    });
+  }
 });
 
-router.get("", async function(req, res, next) {
-
+router.get("/broadcast/answers/:page", async function(req, res, next) {
+  try {
+    let questionId = req.body.questionId;
+    let answers = await AnswerModal.getAnswers(questionId, req.body.page);
+    res.send({
+      "code":200,
+			"enmsg":"ok",
+			"cnmsg":"成功",
+			"data": answers
+    });
+  } catch(err) {
+    res.send({
+      "code":500,
+      "enmsg":"server error",
+      "cnmsg":"服务器内部错误",
+      "data": null
+    });
+  }
 });
 
 module.exports = router;

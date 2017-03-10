@@ -11,6 +11,16 @@ function checkLogin(req, res, next) {
 	}
 }
 
+function returnError(req, res, next) {
+	res.send({
+      "code":500,
+      "enmsg":"server error",
+      "cnmsg":"服务器内部错误",
+      "data": null
+    });
+}
+
 module.exports = {
-    checkLogin: checkLogin
+    checkLogin: checkLogin,
+	returnError: returnError
 }

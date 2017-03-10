@@ -13,11 +13,11 @@ module.exports = {
     });
   },
   // 广播问题回答
-  getAnswers: function(questionId) {
+  getAnswers: function(questionId, page) {
     return Answer.find({
       targetType: 1,
       questionId: questionId
-    });
+    }).select("likes detail").skip(page * 10);
   },
   // 设置精品回答
   setRecommend: function(answerId, bool) {
