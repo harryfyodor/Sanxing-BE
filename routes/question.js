@@ -71,10 +71,10 @@ router.get("/broadcast/question", async function(req, res, next) {
   }
 });
 
-router.get("/broadcast/answers/:page", async function(req, res, next) {
+router.get("/broadcast/answers/:questionId/:page", async function(req, res, next) {
   try {
-    let questionId = req.body.questionId;
-    let answers = await AnswerModal.getAnswers(questionId, req.body.page);
+    let questionId = req.params.questionId;
+    let answers = await AnswerModal.getAnswers(questionId, req.params.page);
     return resHandler(res, answers);
   } catch(err) {
     return errHandler(res, err);
