@@ -1,4 +1,5 @@
 function checkLogin(req, res, next) {
+	// req.session.name = "harry";
 	if(req.session.name) {
 		next();
 	} else {
@@ -11,16 +12,6 @@ function checkLogin(req, res, next) {
 	}
 }
 
-function returnError(req, res, next) {
-	res.send({
-      "code":500,
-      "enmsg":"server error",
-      "cnmsg":"服务器内部错误",
-      "data": null
-    });
-}
-
 module.exports = {
-    checkLogin: checkLogin,
-	returnError: returnError
+    checkLogin: checkLogin
 }

@@ -20,9 +20,9 @@ module.exports = {
   },
   // mine
   // 设置更新昵称,更新密码，头像，tags，设置今天三个问题
-  updateOneUser: function(name, options) {
-    User.findOneAndUpdate({
-      name: name, 
+  updateOneUser: async function(name, options) {
+    await User.update({
+      name: name
     }, {
       $set: options
     });

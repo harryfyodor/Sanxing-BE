@@ -6,57 +6,39 @@ let express = require('express');
 let router = express.Router();
 let UserModel = require('../models/user');
 let TagModel = require('../models/tags');
-let checkLogin = require('./middlewares');
 let crypto = require('crypto');
+let checkLogin = require('./middlewares').checkLogin;
+let resHandler = require('../utils/respondUtils').resHandler;
+let errHandler = require('../utils/respondUtils').errHandler;
 
 function md5 (text) {
   return crypto.createHash('md5').update(text).digest('hex');
 };
 
 // 获取所有tags
-router.post('/get/tags', async function(req, res, next) {
+router.get('/get/tags', async function(req, res, next) {
 	try {
 		// let url = await TagModel.getUrlsByTag(["90后"]);
 		let tags = await TagModel.getAllTags();
-		res.send({
-			"code":200,
-			"enmsg":"ok",
-			"cnmsg":"成功",
-			"data": tags
-		});
+		return resHandler(res, tags);
 	} catch(err) {
-		res.send({
-			"code":500,
-			"enmsg":"server error",
-			"cnmsg":"服务器内部错误",
-			"data":null
-		});
+		return errHandler(res, err);
 	}
 });
 
 // 设置标签
-router.post('/set/profile', async function(req, res, next) {
+router.post('/set/profile', checkLogin, async function(req, res, next) {
 	try {
 		let name = req.session.name;
-
+		name = 'Manny';
+		console.log(req.body.hobbies);
 		await UserModel.updateOneUser(name, {
 			hobbies: req.body.hobbies
 		});
-
 		// 成功设置标签
-		res.send({
-			"code":200,
-			"enmsg":"ok",
-			"cnmsg":"成功",
-			"data":null
-		});
+		return resHandler(res);
 	} catch(err) {
-		res.send({
-			"code":500,
-			"enmsg":"server error",
-			"cnmsg":"服务器内部错误",
-			"data":null
-		});
+		return errHandler(res, err);
 	}
 });
 
@@ -68,41 +50,20 @@ router.post('/signin', async function(req, res, next) {
 
 		let user = await UserModel.findOneUser(name);
 
-		// 未注册
+		// 未注册过
 		if(!user) {
-			return res.send({
-				"code":200,
-				"enmsg":"not sign up",
-				"cnmsg":"您还没有注册过",
-				"data":null
-			});
+			return errHandler(res, null, 200, "not sign up", "您还没有注册过");
 		}
 		// 成功
 		if(user.password === password) {
 			req.session.name = name;
 			req.session._id = user._id;
-			return res.send({
-				"code":200,
-				"enmsg":"ok",
-				"cnmsg":"成功",
-				"data":null
-			});
+			return resHandler(res);
 		}
 		// 密码错误
-		res.send({
-			"code":200,
-			"enmsg":"wrong password",
-			"cnmsg":"密码错误",
-			"data":null
-		});
+		return errHandler(res, null, 200, "wrong password", "密码错误");
 	} catch (err) {
-		console.log(err);
-		res.send({
-			"code":500,
-			"enmsg":"server error",
-			"cnmsg":"服务器内部错误",
-			"data":null
-		});
+		return errHandler(res, err);
 	}
 });
 
@@ -118,27 +79,12 @@ router.post('/signup', async function(req, res, next) {
 		});
 
 		// 成功注册！
-		res.send({
-			"code":200,
-			"enmsg":"ok",
-			"cnmsg":"成功",
-			"data":null
-		});
+		return resHandler(res);
 	} catch (err) {
 		if(err.code === 11000) {
-			res.send({
-				"code":200,
-				"enmsg":"duplicate name",
-				"cnmsg":"用户名已被注册",
-				"data":null
-			});
+			return errHandler(res, err, 200, "duplicate name", "用户名已被注册");
 		} else {
-			res.send({
-				"code":500,
-				"enmsg":"server error",
-				"cnmsg":"服务器内部错误",
-				"data":null
-			});
+			return errHandler(res, err);
 		}
 	}
 });

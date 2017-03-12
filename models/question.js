@@ -36,7 +36,7 @@ module.exports = {
   },
 
   // 下拉的请求，直接返回所有问题
-  getAllToday() {
+  getAllToday: async function() {
     let user = await UserModel.findOne({ name: name }),
         todayQuestions = user.todayQuestions;
 
