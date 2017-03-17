@@ -15,32 +15,28 @@ function md5 (text) {
   return crypto.createHash('md5').update(text).digest('hex');
 };
 
-// 获取所有tags
-router.get('/get/tags', async function(req, res, next) {
+// 注册功能
+router.post('/signup', async function(req, res, next) {
 	try {
-		// let url = await TagModel.getUrlsByTag(["90后"]);
-		let tags = await TagModel.getAllTags();
-		return resHandler(res, tags);
-	} catch(err) {
-		return errHandler(res, err);
+		let name = req.body.name,
+			password = md5(req.body.password);
+
+		await UserModel.create({
+			name: name,
+			password: password
+		});
+
+		// 成功注册！
+		return resHandler(res);
+	} catch (err) {
+		if(err.code === 11000) {
+			return errHandler(res, err, 200, "duplicate name", "用户名已被注册");
+		} else {
+			return errHandler(res, err);
+		}
 	}
 });
 
-// 设置标签
-router.post('/set/profile', checkLogin, async function(req, res, next) {
-	try {
-		let name = req.session.name;
-		name = 'Manny';
-		console.log(req.body.hobbies);
-		await UserModel.updateOneUser(name, {
-			hobbies: req.body.hobbies
-		});
-		// 成功设置标签
-		return resHandler(res);
-	} catch(err) {
-		return errHandler(res, err);
-	}
-});
 
 // 登录功能
 router.post('/signin', async function(req, res, next) {
@@ -67,25 +63,63 @@ router.post('/signin', async function(req, res, next) {
 	}
 });
 
-// 注册功能
-router.post('/signup', async function(req, res, next) {
+// 登出功能
+router.get('/logout', checkLogin, async function(req, res, next) {
 	try {
-		let name = req.body.name,
-			password = md5(req.body.password);
-
-		await UserModel.create({
-			name: name,
-			password: password
+		req.session.destroy(function(err) {
+			if (err) throw err;
+			return resHandler(res);
 		});
-
-		// 成功注册！
-		return resHandler(res);
 	} catch (err) {
-		if(err.code === 11000) {
-			return errHandler(res, err, 200, "duplicate name", "用户名已被注册");
+		return errHandler(res, err);
+	}
+});
+
+// 修改密码
+router.post('/changepw', checkLogin, async function(req, res, next) {
+	try {
+		let oldPassword = md5(req.body.oldPassword),
+			  newPassword = md5(req.body.newPassword),
+				name = req.session.name;
+
+		let user = await UserModel.findOneUser(name);
+		if (user && user.password === oldPassword) {
+			await UserModel.updateOneUser(name, {
+				password: newPassword
+			});
+			return resHandler(res);
 		} else {
-			return errHandler(res, err);
+			return errHandler(res, null, 200, "wrong password", "密码错误");
 		}
+	} catch (err) {
+		return errHandler(res, err);
+	}
+});
+
+// 获取所有tags
+router.get('/tags', async function(req, res, next) {
+	try {
+		// let url = await TagModel.getUrlsByTag(["90后"]);
+		let tags = await TagModel.getAllTags();
+		return resHandler(res, tags);
+	} catch(err) {
+		return errHandler(res, err);
+	}
+});
+
+// 设置标签
+router.post('/profile', checkLogin, async function(req, res, next) {
+	try {
+		let name = req.session.name;
+		//name = 'Manny';
+		//console.log(req.body.hobbies);
+		await UserModel.updateOneUser(name, {
+			hobbies: req.body.hobbies
+		});
+		// 成功设置标签
+		return resHandler(res);
+	} catch(err) {
+		return errHandler(res, err);
 	}
 });
 
