@@ -1,0 +1,85 @@
+# 用于REST client的测试
+
+# 尝试注册账号-再次发送=用户名重复检测
+POST http://localhost:3000/user/signup HTTP/1.1
+content-type: application/json
+
+{
+    "name": "hhk",
+    "password": "123456"
+}
+
+###
+
+# 尝试登录-未注册
+POST http://localhost:3000/user/signin HTTP/1.1
+content-type: application/json
+
+{
+    "name": "hhhk",
+    "password": "12345"
+}
+
+###
+
+# 尝试登录-密码错误
+POST http://localhost:3000/user/signin HTTP/1.1
+content-type: application/json
+
+{
+    "name": "hhk",
+    "password": "12345"
+}
+
+###
+
+# 尝试登录-密码正确
+POST http://localhost:3000/user/signin HTTP/1.1
+content-type: application/json
+
+{
+    "name": "hhk",
+    "password": "123456"
+}
+
+###
+
+# 尝试设置标签
+POST http://localhost:3000/user/profile HTTP/1.1
+content-type: application/json
+
+{
+    "hobbies": ["hobbyA","hobbyB","hobbyC"]
+}
+
+###
+
+# 尝试登出
+GET http://localhost:3000/user/logout HTTP/1.1
+
+###
+
+# 尝试更改密码-密码错误
+POST http://localhost:3000/user/changepw HTTP/1.1
+content-type: application/json
+
+{
+    "oldPassword": "12345",
+    "newPassword": "1234567"
+}
+
+###
+
+# 尝试更改密码-成功修改-改完记得改回去以下次测试
+POST http://localhost:3000/user/changepw HTTP/1.1
+content-type: application/json
+
+{
+    "oldPassword": "123456",
+    "newPassword": "1234567"
+}
+
+###
+
+# 尝试获取标签
+GET http://localhost:3000/user/tags HTTP/1.1
