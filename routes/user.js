@@ -1,126 +1,178 @@
-/*
-* 这里主要处理有关用户的地方
-*/
+import express from 'express'
+import UserModel from '../models/user'
+import QuestionModel from '../models/question'
+import AnswerModel from '../models/answer'
+import crypto from 'crypto'
+import { resHandler, errHandler } from '../utils/respondUtils'
+import { checkLogin } from './middlewares'
 
-let express = require('express');
-let router = express.Router();
-let UserModel = require('../models/user');
-let TagModel = require('../models/tags');
-let crypto = require('crypto');
-let checkLogin = require('./middlewares').checkLogin;
-let resHandler = require('../utils/respondUtils').resHandler;
-let errHandler = require('../utils/respondUtils').errHandler;
+let router = express.Router()
 
 function md5 (text) {
-  return crypto.createHash('md5').update(text).digest('hex');
+  return crypto.createHash('md5').update(text).digest('hex')
 };
 
 // 注册功能
-router.post('/signup', async function(req, res, next) {
-	try {
-		let name = req.body.name,
-			password = md5(req.body.password);
-
-		await UserModel.create({
-			name: name,
-			password: password
-		});
-
-		// 成功注册！
-		return resHandler(res);
-	} catch (err) {
-		if(err.code === 11000) {
-			return errHandler(res, err, 200, "duplicate name", "用户名已被注册");
-		} else {
-			return errHandler(res, err);
-		}
-	}
-});
-
+router.post('/', async function (req, res, next) {
+  try {
+    let username = req.body.username
+    let password = md5(req.body.password)
+    let user = await UserModel.signUp(username, password)
+    resHandler(res, user, 201)
+  } catch (err) {
+    if (err.code === 11000) {  // index重复了
+      errHandler(res, err, 400, 'duplicate username', '用户名已被注册')
+    } else {
+      errHandler(res, err)
+    }
+  }
+})
 
 // 登录功能
-router.post('/signin', async function(req, res, next) {
-	try {
-		let name = req.body.name,
-			password = md5(req.body.password);
-
-		let user = await UserModel.findOneUser(name);
-
-		// 未注册过
-		if(!user) {
-			return errHandler(res, null, 200, "not sign up", "您还没有注册过");
-		}
-		// 成功
-		if(user.password === password) {
-			req.session.name = name;
-			req.session._id = user._id;
-			return resHandler(res);
-		}
-		// 密码错误
-		return errHandler(res, null, 200, "wrong password", "密码错误");
-	} catch (err) {
-		return errHandler(res, err);
-	}
-});
+router.post('/signin', async function (req, res, next) {
+  try {
+    let username = req.body.username
+    let password = md5(req.body.password)
+    let user = await UserModel.getUser(username)
+    // 未注册过
+    if (!user) {
+      return errHandler(res, null, 400, 'not sign up', '您还没有注册过')
+    } else if (user.password === password) {
+      req.session.username = username
+      req.session._id = user._id
+      resHandler(res)
+    } else {  // 密码错误
+      errHandler(res, null, 400, 'wrong password', '密码错误')
+    }
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
 
 // 登出功能
-router.get('/logout', checkLogin, async function(req, res, next) {
-	try {
-		req.session.destroy(function(err) {
-			if (err) throw err;
-			return resHandler(res);
-		});
-	} catch (err) {
-		return errHandler(res, err);
-	}
-});
+router.get('/logout', checkLogin, async function (req, res, next) {
+  try {
+    req.session.destroy(function (err) {
+      if (err) throw err
+      resHandler(res)
+    })
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
 
 // 修改密码
-router.post('/changepw', checkLogin, async function(req, res, next) {
-	try {
-		let oldPassword = md5(req.body.oldPassword),
-			  newPassword = md5(req.body.newPassword),
-				name = req.session.name;
+router.put('/password', checkLogin, async function (req, res, next) {
+  try {
+    let oldPassword = md5(req.body.oldPassword)
+    let newPassword = md5(req.body.newPassword)
+    let username = req.session.username
 
-		let user = await UserModel.findOneUser(name);
-		if (user && user.password === oldPassword) {
-			await UserModel.updateOneUser(name, {
-				password: newPassword
-			});
-			return resHandler(res);
-		} else {
-			return errHandler(res, null, 200, "wrong password", "密码错误");
-		}
-	} catch (err) {
-		return errHandler(res, err);
-	}
-});
+    let user = await UserModel.changeUserPassword(username, oldPassword, newPassword)
 
-// 获取所有tags
-router.get('/tags', async function(req, res, next) {
-	try {
-		// let url = await TagModel.getUrlsByTag(["90后"]);
-		let tags = await TagModel.getAllTags();
-		return resHandler(res, tags);
-	} catch(err) {
-		return errHandler(res, err);
-	}
-});
+    if (user) {
+      resHandler(res, user.password)
+    } else {
+      errHandler(res, null, 400, 'wrong password', '密码错误')
+    }
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
 
 // 设置标签
-router.post('/profile', checkLogin, async function(req, res, next) {
-	try {
-		let name = req.session.name;
-		//name = 'Manny';
-		//console.log(req.body.hobbies);
-		await UserModel.updateOneUser(name, {
-			hobbies: req.body.hobbies
-		});
-		// 成功设置标签
-		return resHandler(res);
-	} catch(err) {
-		return errHandler(res, err);
-	}
-});
+router.put('/tags', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let tags = req.body.tags
 
-module.exports = router;
+    let user = await UserModel.setTags(username, tags)
+
+    resHandler(res, user.tags)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+// 获取标签
+router.get('/tags', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+
+    let tags = (await UserModel.getUser(username, 'tags')).tags
+
+    resHandler(res, tags)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.post('/likes/questions', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let questionId = req.body.questionId
+    let user = await UserModel.addLikeQuestion(username, questionId)
+    await QuestionModel.changeLikeCounter(questionId, 1)
+    resHandler(res, user.favoriteQuestions, 201)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.get('/likes/questions', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let questions = await QuestionModel.getLikeQuestions(username)
+    resHandler(res, questions)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.delete('/likes/questions', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let questionId = req.body.questionId
+    await UserModel.deleteLikeQuestion(username, questionId)
+    await QuestionModel.changeLikeCounter(questionId, -1)
+    resHandler(res, null, 204)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.post('/likes/answers', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let answerId = req.body.answerId
+    let user = await UserModel.addLikeAnswer(username, answerId)
+    await AnswerModel.changeLikeCounter(answerId, 1)
+    resHandler(res, user.favoriteAnswers, 201)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.get('/likes/answers', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let answers = await AnswerModel.getLikeAnswers(username)
+    resHandler(res, answers)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.delete('/likes/answers', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let answerId = req.body.answerId
+    await UserModel.deleteLikeAnswer(username, answerId)
+    await AnswerModel.changeLikeCounter(answerId, -1)
+    resHandler(res, null, 204)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+export default router

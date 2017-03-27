@@ -1,0 +1,787 @@
+[
+  {
+    "content": "今天的天气怎么样",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag7"
+    ]
+  },
+  {
+    "content": "今天打算早睡吗？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag9"
+    ]
+  },
+  {
+    "content": "现在最想要的东西是？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "你现在幸福吗？",
+    "type": "broadcast",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag9"
+    ],
+    "public": false
+  },
+  {
+    "content": "昨天晚上睡得好吗？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag7"
+    ]
+  },
+  {
+    "content": "今天的心情怎样？为什么？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag9"
+    ]
+  },
+  {
+    "content": "今晚的月亮是什么样子的？",
+    "type": "broadcast",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag8"
+    ],
+    "public": false
+  },
+  {
+    "content": "你印象最深的一句话是？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag7"
+    ]
+  },
+  {
+    "content": "最近在看什么书？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag7"
+    ]
+  },
+  {
+    "content": "最近最奢侈的事情是什么？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag5",
+      "tag8"
+    ]
+  },
+  {
+    "content": "最近一次看电影是什么时候？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag9"
+    ]
+  },
+  {
+    "content": "最近一次收到的礼物是什么？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag7"
+    ]
+  },
+  {
+    "content": "上个休息日是怎样度过的？",
+    "type": "broadcast",
+    "tags": [
+      "tag1",
+      "tag6",
+      "tag9"
+    ],
+    "public": false
+  },
+  {
+    "content": "最近萌生的信念？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag7"
+    ]
+  },
+  {
+    "content": "最近get了什么新技能？",
+    "type": "broadcast",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag7"
+    ],
+    "public": false
+  },
+  {
+    "content": "有难以忘怀的事情吗？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "印象深刻的旅途回忆是？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "有没有很久没见想要和TA再说说话的人？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "什么事情让你觉得享受？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "今年的目标是什么？",
+    "type": "broadcast",
+    "tags": [
+      "tag1",
+      "tag4",
+      "tag8"
+    ],
+    "public": false
+  },
+  {
+    "content": "明天打算几点起床？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "明天的目标是什么？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "最近一次的小长假有什么计划？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "这个周末打算去哪里买东西？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag8"
+    ]
+  },
+  {
+    "content": "开学月的目标是？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "虽然现在没法做，但希望一年后可以做的事情是？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "下次休息日前需要完成的事情是？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "明天起床后想喝什么？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "觉得明年的今天在做什么呢？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "常看的电视节目是什么？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "喜欢喝什么饮料？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag4",
+      "tag9"
+    ]
+  },
+  {
+    "content": "想养什么宠物？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag5",
+      "tag7"
+    ]
+  },
+  {
+    "content": "恋爱了吗？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "最崇拜的人是？",
+    "type": "broadcast",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag9"
+    ],
+    "public": false
+  },
+  {
+    "content": "最喜欢的食物是什么？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "明明喜欢却又说不出口的事情是？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag8"
+    ]
+  },
+  {
+    "content": "会玩麻将吗？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag8"
+    ]
+  },
+  {
+    "content": "你最大的敌人是？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag7"
+    ]
+  },
+  {
+    "content": "不经意间会哼的歌是？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag7"
+    ]
+  },
+  {
+    "content": "你是怎么减压的？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag5",
+      "tag7"
+    ]
+  },
+  {
+    "content": "有只属于你自己的纪念日吗？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag7"
+    ]
+  },
+  {
+    "content": "对你来说美味的是什么？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag9"
+    ]
+  },
+  {
+    "content": "有什么兴趣爱好？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag8"
+    ]
+  },
+  {
+    "content": "想要试试的新职业是什么？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "我以后想找什么工作？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "从异性那里听到会很高兴的一句话是？",
+    "type": "broadcast",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag8"
+    ],
+    "public": false
+  },
+  {
+    "content": "请描述下家庭成员。",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag9"
+    ]
+  },
+  {
+    "content": "请写下喜欢的一段/句诗。",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "你会为自己的努力而奖励自己什么？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag8"
+    ]
+  },
+  {
+    "content": "你觉得自己哪方面最厉害？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag7"
+    ]
+  },
+  {
+    "content": "我努力生活的动力来源是什么？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "喜欢自己脸上的哪个部分？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "最喜欢自己的3个特质。",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag8"
+    ]
+  },
+  {
+    "content": "在哪方面有点自卑？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag7"
+    ]
+  },
+  {
+    "content": "感觉自己最有魅力的地方？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "想要改变自己性格中的哪个部分？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag8"
+    ]
+  },
+  {
+    "content": "想要订购的报纸/杂志是？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag8"
+    ]
+  },
+  {
+    "content": "今天锻炼身体了吗？多少时间？现在觉得怎么样:-)",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "你最近一次体育活动是什么时候？什么项目？和谁一起？感觉如何？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "你有另一半吗？你身上什么特质最吸引另一半？一个人/两个人生活，完全失去的东西是什么？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "上次给家里打电话，是几小时/天/周/月前呢？话题是什么？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "用一句诗或成语或词描述今天一天。",
+    "type": "broadcast",
+    "tags": [
+      "tag1",
+      "tag4",
+      "tag7"
+    ],
+    "public": false
+  },
+  {
+    "content": "用一种颜色来形容你的心情",
+    "type": "broadcast",
+    "tags": [
+      "tag1",
+      "tag5",
+      "tag7"
+    ],
+    "public": false
+  },
+  {
+    "content": "6个字形容今天的心情",
+    "type": "broadcast",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag9"
+    ],
+    "public": false
+  },
+  {
+    "content": "3个词形容今天一天。",
+    "type": "broadcast",
+    "tags": [
+      "tag1",
+      "tag5",
+      "tag7"
+    ],
+    "public": false
+  },
+  {
+    "content": "科学真的可信吗？",
+    "type": "broadcast",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag8"
+    ],
+    "public": false
+  },
+  {
+    "content": "正常人和不正常人的界限在哪？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag5",
+      "tag8"
+    ]
+  },
+  {
+    "content": "生命有意义吗？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "你是宿命决定论者吗？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag4",
+      "tag7"
+    ]
+  },
+  {
+    "content": "如何能确定其他人的心灵的存在？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag8"
+    ]
+  },
+  {
+    "content": "为什么有时候觉得活着那么艰难？",
+    "type": "broadcast",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag7"
+    ],
+    "public": false
+  },
+  {
+    "content": "忙碌的人生是病态的吗？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag7"
+    ]
+  },
+  {
+    "content": "你对双十一这种人造节有什么看法，持积极态度还是消极态度？",
+    "type": "broadcast",
+    "tags": [
+      "tag3",
+      "tag4",
+      "tag9"
+    ],
+    "public": false
+  },
+  {
+    "content": "如何看待川普当选美国第45任总统？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag7"
+    ]
+  },
+  {
+    "content": "如何看待中医？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag6",
+      "tag7"
+    ]
+  },
+  {
+    "content": "你对韩国游行有什么看法？",
+    "type": "daily",
+    "tags": [
+      "tag1",
+      "tag6",
+      "tag9"
+    ]
+  },
+  {
+    "content": "熬夜到2点和6点早起干活，到底有什么不同？",
+    "type": "daily",
+    "tags": [
+      "tag2",
+      "tag4",
+      "tag7"
+    ]
+  },
+  {
+    "content": "你认为动物园方在老虎吃人事件里该负多大责任？",
+    "type": "broadcast",
+    "tags": [
+      "tag1",
+      "tag5",
+      "tag7"
+    ],
+    "public": false
+  },
+  {
+    "content": "你对当前的生活满意吗？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag5",
+      "tag9"
+    ]
+  },
+  {
+    "content": "医闹事件频发，你认为其中最关键的环节是？",
+    "type": "daily",
+    "tags": [
+      "tag3",
+      "tag6",
+      "tag8"
+    ]
+  },
+  {
+    "content": "无标签测试1",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试2",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试3",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试4",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试5",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试6",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试7",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试8",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试9",
+    "type": "daily",
+    "tags": []
+  },
+  {
+    "content": "无标签测试10",
+    "type": "daily",
+    "tags": []
+  }
+]

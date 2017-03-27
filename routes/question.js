@@ -1,84 +1,77 @@
-/*
-* 这里主要处理问题与回答的地方
-*/
+import express from 'express'
+import QuestionModel from '../models/question'
+import { resHandler, errHandler } from '../utils/respondUtils'
+import { checkLogin } from './middlewares'
 
-let express = require('express');
-let router = express.Router();
-let QuestionModel = require('../models/question');
-let AnswerModal = require('../models/answer');
-let checkLogin = require('./middlewares').checkLogin;
-let resHandler = require('../utils/respondUtils').resHandler;
-let errHandler = require('../utils/respondUtils').errHandler;
+let router = express.Router()
 
-router.post("/like/answer", async function(req, res, next) {
+router.get('/today', checkLogin, async function (req, res, next) {
   try {
-    let question_id = req.body.id;
-    await QuestionModel.likeQuestion(question_id);
-    return resHandler(res);
-  } catch(err) {
-    return errHandler(res, err);
+    let username = req.session.username
+    let todayQuestions = await QuestionModel.getTodayQuestion(username)
+    let updatedQuestions = await QuestionModel.getUpdatedQuestion(username, todayQuestions)
+    resHandler(res, updatedQuestions)
+  } catch (err) {
+    errHandler(res, err)
   }
-});
+})
 
-router.post("/like/answer", async function(req, res, next) {
+router.put('/broadcast', async function (req, res, next) {
   try {
-    let answer_id = req.body.id;
-    await AnswerModal.likeAnswer(answer_id);
-    return resHandler(res);
-  } catch(err) {
-    return errHandler(res, err);
+    let questionId = req.body.questionId
+    let isPublic = req.body.public
+    let question = await QuestionModel.changeBroadcastStatus(questionId, isPublic)
+    resHandler(res, question)
+  } catch (err) {
+    errHandler(res, err)
   }
-});
+})
 
-// 回答问题接口
-router.post("/answer", async function(req, res, next) {
+router.get('/broadcast', async function (req, res, next) {
   try {
-    let {
-      questionId,
-      detail,
-      type,
-      targetType,
-      privacy,
-      questionDetail,
-      picture
-    } = req.body;
-    let userId = this.session._id;
-
-    // 创建问题的回答
-    await AnswerModal.createAnswer({
-      questionId,
-      detail,
-      type,
-      targetType,
-      privacy,
-      questionDetail,
-      picture,
-      userId
-    });
-
-    return resHandler(res);
-  } catch(err) {
-		return errHandler(res, err);
+    let questions = await QuestionModel.getBroadcastQuestion()
+    resHandler(res, questions)
+  } catch (err) {
+    errHandler(res, err)
   }
-});
+})
 
-router.get("/broadcast/question", async function(req, res, next) {
+router.get('/broadcast/all', async function (req, res, next) {
   try {
-    let question = QuestionModel.getBroadcastQuestion();
-    return resHandler(res, question);
-  } catch(err) {
-    return errHandler(res, err);
+    let questions = await QuestionModel.getAllBroadcastQuestion()
+    resHandler(res, questions)
+  } catch (err) {
+    errHandler(res, err)
   }
-});
+})
 
-router.get("/broadcast/answers/:questionId/:page", async function(req, res, next) {
+router.get('/:questionId', async function (req, res, next) {
   try {
-    let questionId = req.params.questionId;
-    let answers = await AnswerModal.getAnswers(questionId, req.params.page);
-    return resHandler(res, answers);
-  } catch(err) {
-    return errHandler(res, err);
+    let questionId = req.params.questionId
+    let question = await QuestionModel.getQuestion(questionId)
+    resHandler(res, question)
+  } catch (err) {
+    errHandler(res, err)
   }
-});
+})
 
-module.exports = router;
+router.post('/', async function (req, res, next) {
+  try {
+    let question = await QuestionModel.addQuestion(req.body)
+    resHandler(res, question, 201)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+router.delete('/', async function (req, res, next) {
+  try {
+    let questionId = req.body.questionId
+    await QuestionModel.deleteQuestion(questionId)
+    resHandler(res, null, 204)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+export default router

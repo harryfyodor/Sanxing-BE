@@ -1,36 +1,102 @@
-let User = require('../lib/mongo').User;
+import models from '../lib/mongo'
+import moment from 'moment'
 
-module.exports = {
-  // 创建user
-  create: function(options) {
-	  return User.create(options);
-  },
-  // 通过名字返回user
-  findOneUser: function(name) {
-	  return User.findOne({
-      name: name
-    });
-  },
+let { User } = models
 
-  findOne: function(opts) {
-    return User.findOne(opts);
+export default {
+  signUp: (username, password) => {
+    let lastDay = moment().subtract(1, 'day').toDate()
+    User.create({
+      username,
+      password,
+      lastUpdate: lastDay
+    })
   },
 
-  updateTodayQuestion: async function(id) {
-  },
-  // mine
-  // 设置更新昵称,更新密码，头像，tags，设置今天三个问题
-  updateOneUser: async function(name, options) {
-    await User.update({
-      name: name
+  getUser: (username, ...selectString) => User.findOne({ username }).select(selectString.join(' ')),
+
+  changeUserPassword: (username, oldPassword, newPassword) => {
+    return User.findOneAndUpdate({
+      username,
+      password: oldPassword
     }, {
-      $set: options
-    });
+      $set: {
+        password: newPassword
+      }
+    }, {
+      new: true
+    })
   },
-  // manage
-  removeUser: function(name) {
-    return User.findOneAndRemove({
-      name: name
-    });
+
+  setTags: (username, tags) => {
+    return User.findOneAndUpdate({
+      username
+    }, {
+      $set: {
+        tags
+      }
+    }, {
+      new: true
+    })
   },
+
+  setLastUpdate: (username, lastUpdate) => {
+    return User.findOneAndUpdate({
+      username
+    }, {
+      $set: {
+        lastUpdate
+      }
+    }, {
+      new: true
+    })
+  },
+
+  addLikeQuestion: (username, questionId) => {
+    return User.findOneAndUpdate({
+      username
+    }, {
+      $addToSet: {
+        favoriteQuestions: questionId
+      }
+    }, {
+      new: true
+    })
+  },
+
+  deleteLikeQuestion: (username, questionId) => {
+    return User.findOneAndUpdate({
+      username
+    }, {
+      $pull: {
+        favoriteQuestions: questionId
+      }
+    }, {
+      new: true
+    })
+  },
+
+  addLikeAnswer: (username, answerId) => {
+    return User.findOneAndUpdate({
+      username
+    }, {
+      $addToSet: {
+        favoriteAnswers: answerId
+      }
+    }, {
+      new: true
+    })
+  },
+
+  deleteLikeAnswer: (username, answerId) => {
+    return User.findOneAndUpdate({
+      username
+    }, {
+      $pull: {
+        favoriteAnswers: answerId
+      }
+    }, {
+      new: true
+    })
+  }
 }

@@ -1,0 +1,72 @@
+# 用于REST client的测试
+
+# 尝试提交回答-这里的id请自行修改
+POST http://localhost:3000/answers HTTP/1.1
+content-type: application/json
+
+{
+  "questionId": "58d890239159d4151c8ea8d8",
+  "todayQuestionId": "58d901f76c7e0725f855de9f",
+  "type": "daily",
+  "answerer": {
+    "username": "hhk"
+  },
+  "content": "我就是这么帅哈哈哈",
+  "questionContent": "感觉自己最有魅力的地方？",
+  "time": "noon",
+  "mood": 75
+}
+
+###
+
+# 尝试提交回答2
+POST http://localhost:3000/answers HTTP/1.1
+content-type: application/json
+
+{
+  "questionId": "58d890239159d4151c8ea8d8",
+  "type": "daily",
+  "answerer": {
+    "username": "hhk"
+  },
+  "content": "我回答了第二次",
+  "questionContent": "感觉自己最有魅力的地方？",
+  "time": "morning",
+  "mood": 75
+}
+
+###
+
+# 尝试提交回答3
+POST http://localhost:3000/answers HTTP/1.1
+content-type: application/json
+
+{
+  "questionId": "58d890239159d4151c8ea8a8",
+  "type": "broadcast",
+  "answerer": {
+    "username": "hhk"
+  },
+  "content": "我也回答了广播问题",
+  "questionContent": "今晚的月亮是什么样子的？"
+}
+
+###
+
+# 尝试获取用户所有每日回答
+GET http://localhost:3000/answers/daily HTTP/1.1
+
+###
+
+# 尝试获取用户对某个每日问题的所有回答
+GET http://localhost:3000/answers/daily/58d890239159d4151c8ea8d8 HTTP/1.1
+
+###
+
+# 尝试获取全网对某个广播问题的所有回答
+GET http://localhost:3000/answers/broadcast/58d890239159d4151c8ea8a8 HTTP/1.1
+
+###
+
+# 尝试获取某个特定回答
+GET http://localhost:3000/answers/58d90718e233ac07f031cb30 HTTP/1.1

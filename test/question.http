@@ -1,0 +1,54 @@
+# 用于REST client的测试
+
+# 尝试获取每日问题
+GET http://localhost:3000/questions/today HTTP/1.1
+
+###
+
+# 尝试更改广播问题的状态
+PUT http://localhost:3000/questions/broadcast HTTP/1.1
+content-type: application/json
+
+{
+  "questionId": "58d890239159d4151c8ea8a5",
+  "public": true
+}
+
+###
+
+# 尝试获取广播问题
+GET http://localhost:3000/questions/broadcast HTTP/1.1
+
+###
+
+# 尝试获取所有广播问题
+GET http://localhost:3000/questions/broadcast/all HTTP/1.1
+
+###
+
+# 尝试获取某个特定问题
+GET http://localhost:3000/questions/58d890239159d4151c8ea8a3 HTTP/1.1
+
+###
+
+# 尝试创建问题
+POST http://localhost:3000/questions/ HTTP/1.1
+content-type: application/json
+
+{
+  "content": "我是新增的问题",
+    "type": "daily",
+    "tags": [
+      "tag2333"
+    ]
+}
+
+###
+
+# 尝试删除某个特定问题
+DELETE http://localhost:3000/questions/ HTTP/1.1
+content-type: application/json
+
+{
+  "questionId": "58d915ebe5ba4545ec483110"
+}

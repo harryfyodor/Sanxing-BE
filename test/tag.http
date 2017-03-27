@@ -1,0 +1,4 @@
+# 用于REST client的测试
+
+# 尝试获取全部标签
+GET http://localhost:3000/tags HTTP/1.1

@@ -1,14 +1,10 @@
-let errHandler = require('../utils/respondUtils').errHandler;
+import {errHandler} from '../utils/respondUtils'
 
-function checkLogin(req, res, next) {
-	// req.session.name = "harry";
-	if(req.session.name) {
-		next();
-	} else {
-		return errHandler(res, null, 200, "not login", "请重新登录");
-	}
+export function checkLogin (req, res, next) {
+  if (req.session.username) {
+    next()
+  } else {
+    errHandler(res, null, 401, 'not login', '请登录后操作')
+  }
 }
 
-module.exports = {
-    checkLogin: checkLogin
-}

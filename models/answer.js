@@ -1,45 +1,51 @@
-let Answer = require('../lib/mongo').Answer;
+import models from '../lib/mongo'
+import UserModel from './user'
 
-module.exports = {
-  // 回答
-  createAnswer: function(opts) {
-    return Answer.create(opts)
+let { Answer } = models
+
+export default {
+  addAnswer: (data) => Answer.create(data),
+
+  getDailyAnswer: (username) => Answer.find({
+    answerer: {
+      username
+    },
+    type: 'daily'
+  }),
+
+  getDailyAnswerForQuestion: (username, questionId) => Answer.find({
+    answerer: {
+      username
+    },
+    type: 'daily',
+    questionId
+  }),
+
+  getBroadcastAnswerForQuestion: (questionId) => Answer.find({
+    type: 'broadcast',
+    questionId
+  }),
+
+  getAnswer: (answerId) => Answer.findOne({
+    _id: answerId
+  }),
+
+  getLikeAnswers: async (username) => {
+    let answerIds = (await UserModel.getUser(username, 'favoriteAnswers')).favoriteAnswers
+    return Answer.find({
+      _id: {
+        $in: answerIds
+      }
+    })
   },
-  likeAnswer: async function(id) {
-    await Answer.where({ _id: id }).update({
+
+  changeLikeCounter: (answerId, number) => {
+    return Answer.update({
+      _id: answerId
+    }, {
       $inc: {
-        likes: 1
+        likes: number
       }
-    });
-  },
-  // 广播问题回答
-  getAnswers: function(questionId, page) {
-    return Answer.find({
-      targetType: 1,
-      questionId: questionId
-    }).select("likes detail").skip(page * 10);
-  },
-  // 设置精品回答
-  setRecommend: function(answerId, bool) {
-    return Answer.where({ _id: answerId }).update({
-      $set: {
-        recommended: bool
-      }
-    });
-  },
-  // 精品回答
-  getAnswer: function(id) {
-    return Answer.findOne({
-      questionId: id,
-      recommended: true
-    });
-  },
-  // 获取历史, 每次获取前十条，分页
-  getAnswersByUserId: function(userId, num) {
-    return Answer.find({
-      _id: userId 
-    }).sort({
-      createDate: -1
-    }).skip(10 * num);
+    })
   }
 }

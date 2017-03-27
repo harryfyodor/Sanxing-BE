@@ -1,0 +1,135 @@
+# 用于REST client的测试
+
+# 尝试注册账号-再次发送=用户名重复检测
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "hhk",
+    "password": "123456"
+}
+
+###
+
+# 尝试登录-未注册
+POST http://localhost:3000/users/signin HTTP/1.1
+content-type: application/json
+
+{
+    "username": "hhhk",
+    "password": "12345"
+}
+
+###
+
+# 尝试登录-密码错误
+POST http://localhost:3000/users/signin HTTP/1.1
+content-type: application/json
+
+{
+    "username": "hhk",
+    "password": "12345"
+}
+
+###
+
+# 尝试登录-密码正确
+POST http://localhost:3000/users/signin HTTP/1.1
+content-type: application/json
+
+{
+    "username": "hhk",
+    "password": "123456"
+}
+
+###
+
+# 尝试登出
+GET http://localhost:3000/users/logout HTTP/1.1
+
+###
+
+# 尝试更改密码-密码错误
+PUT http://localhost:3000/users/password HTTP/1.1
+content-type: application/json
+
+{
+    "oldPassword": "12345",
+    "newPassword": "1234567"
+}
+
+###
+
+# 尝试更改密码-成功修改-改完记得改回去以下次测试
+PUT http://localhost:3000/users/password HTTP/1.1
+content-type: application/json
+
+{
+    "oldPassword": "123456",
+    "newPassword": "1234567"
+}
+
+###
+
+# 尝试设置标签
+PUT http://localhost:3000/users/tags HTTP/1.1
+content-type: application/json
+
+{
+    "tags": ["tag1","tag4","tag7"]
+}
+
+###
+
+# 尝试获取标签
+GET http://localhost:3000/users/tags HTTP/1.1
+
+###
+
+# 尝试添加喜欢的问题
+POST http://localhost:3000/users/likes/questions HTTP/1.1
+content-type: application/json
+
+{
+    "questionId": "58d890239159d4151c8ea8f9"
+}
+
+###
+
+# 尝试获取喜欢的问题
+GET http://localhost:3000/users/likes/questions HTTP/1.1
+
+###
+
+# 尝试删除喜欢的问题
+DELETE http://localhost:3000/users/likes/questions HTTP/1.1
+content-type: application/json
+
+{
+    "questionId": "58d890239159d4151c8ea8f9"
+}
+
+###
+
+# 尝试添加喜欢的回答
+POST http://localhost:3000/users/likes/answers HTTP/1.1
+content-type: application/json
+
+{
+    "answerId": "58d90718e233ac07f031cb30"
+}
+
+###
+
+# 尝试获取喜欢的回答
+GET http://localhost:3000/users/likes/answers HTTP/1.1
+
+###
+
+# 尝试删除喜欢的回答
+DELETE http://localhost:3000/users/likes/answers HTTP/1.1
+content-type: application/json
+
+{
+    "answerId": "58d90718e233ac07f031cb30"
+}
