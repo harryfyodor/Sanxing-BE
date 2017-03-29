@@ -1,6 +1,10 @@
 module.exports = {
   port: 3000,
-  db: 'san',
+  mongodbOptions: {
+    host: 'localhost',
+    port: 27017,
+    db: 'san'
+  },
   redisOptions: {
     host: 'localhost',
     port: 6379,

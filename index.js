@@ -1,11 +1,13 @@
 import express from 'express'
 import winston from 'winston'
 import expressWinston from 'express-winston'
-import config from './config'
 import session from 'express-session'
 import connect from 'connect-redis'
 import bodyParser from 'body-parser'
 import routes from './routes'
+
+let env = process.env.NODE_ENV || 'default'
+  , config = require('./config.'+env);
 
 let RedisStore = connect(session)
 let app = express()
