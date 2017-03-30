@@ -8,15 +8,17 @@ import { checkLogin } from './middlewares'
 
 let router = express.Router()
 
-function md5 (text) {
-  return crypto.createHash('md5').update(text).digest('hex')
+function sha256 (text) {
+  return crypto.createHash('sha256').update(text).digest('hex')
 };
+
+let salt = 'sanxing'
 
 // 注册功能
 router.post('/', async function (req, res, next) {
   try {
     let username = req.body.username
-    let password = md5(req.body.password)
+    let password = sha256(username + req.body.password + salt)
     let user = await UserModel.signUp(username, password)
     resHandler(res, user, 201)
   } catch (err) {
@@ -32,7 +34,7 @@ router.post('/', async function (req, res, next) {
 router.post('/signin', async function (req, res, next) {
   try {
     let username = req.body.username
-    let password = md5(req.body.password)
+    let password = sha256(username + req.body.password + salt)
     let user = await UserModel.getUser(username)
     // 未注册过
     if (!user) {
@@ -64,10 +66,10 @@ router.get('/logout', checkLogin, async function (req, res, next) {
 // 修改密码
 router.put('/password', checkLogin, async function (req, res, next) {
   try {
-    let oldPassword = md5(req.body.oldPassword)
-    let newPassword = md5(req.body.newPassword)
     let username = req.session.username
-
+    let oldPassword = sha256(username + req.body.oldPassword + salt)
+    let newPassword = sha256(username + req.body.newPassword + salt)
+    
     let user = await UserModel.changeUserPassword(username, oldPassword, newPassword)
 
     if (user) {
