@@ -11,7 +11,11 @@ router.post('/', async function(req, res, next) {
     await TagModel.addTag(tag)
     resHandler(res)
   } catch (err) {
-    errHandler(res, err)
+    if (err.code === 11000) {  // index重复了
+      errHandler(res, err, 400, 'duplicate tag name', '重复标签了')
+    } else {
+      errHandler(res, err)
+    }
   }
 });
 
