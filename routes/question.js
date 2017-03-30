@@ -38,7 +38,7 @@ router.get('/broadcast', async function (req, res, next) {
 
 router.get('/broadcast/all', async function (req, res, next) {
   try {
-    let questions = await QuestionModel.getAllBroadcastQuestion()
+    let questions = await QuestionModel.getAllPublicBroadcastQuestion()
     resHandler(res, questions)
   } catch (err) {
     errHandler(res, err)
@@ -69,6 +69,16 @@ router.delete('/', async function (req, res, next) {
     let questionId = req.body.questionId
     await QuestionModel.deleteQuestion(questionId)
     resHandler(res, null, 204)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+// 获取全部每日问题（管理）
+router.get('/daliy/all', async function (req, res, next) {
+  try {
+    let questions = await QuestionModel.getAllDaliyQuestion()
+    resHandler(res, questions)
   } catch (err) {
     errHandler(res, err)
   }

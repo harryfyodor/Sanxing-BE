@@ -56,7 +56,8 @@ export default {
     _id: id
   }, {
     $set: {
-      public: isPublic
+      public: isPublic,
+      date: new Date()
     }
   }, {
     new: true
@@ -82,13 +83,28 @@ export default {
     return updatedQuestions
   },
 
+  // 获取公开的广播问题中日期值最晚的
   getBroadcastQuestion: () => Question.find({
     type: 'broadcast',
     public: true
+  }).sort({ 
+    date : -1 
+  }).limit(1),
+
+  // 获取所有已经公开的广播问题（管理）
+  getAllPublicBroadcastQuestion: () => Question.find({
+    type: 'broadcast',
+    public: true
+  }).sort({
+    date: -1
   }),
 
-  getAllBroadcastQuestion: () => Question.find({
-    type: 'broadcast'
+  // 获取所有未公开的广播问题（管理）
+  getAllNotPublicBroadcastQuestion: () => Question.find({
+    type: 'broadcast',
+    public: false
+  }).sort({
+    date: 1
   }),
 
   getLikeQuestions: async (username) => {
@@ -123,5 +139,10 @@ export default {
     question.remove()
   },
 
-  addQuestion: (question) => Question.create(question)
+  addQuestion: (question) => Question.create(question),
+
+  // 获取所有每日问题（管理）
+  getAllDaliyQuestion: () => Question.find({
+    type: 'daliy'
+  })
 }
