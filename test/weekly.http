@@ -1,8 +1,8 @@
 # 文章、词卡、周报测试
 
 # 文章
-POST http://localhost:3000/article HTTP/1.1
-PUT http://localhost:3000/article/:articleId HTTP/1.1
+POST http://localhost:3000/articles HTTP/1.1
+PUT http://localhost:3000/articles/:articleId HTTP/1.1
 {
 	"title": "标题",
 	"author": "作者",
@@ -10,15 +10,15 @@ PUT http://localhost:3000/article/:articleId HTTP/1.1
 	"body": "正文正文正文，很好很好很好"
 }
 
-GET http://localhost:3000/article/:articleId HTTP/1.1
-DELETE http://localhost:3000/article/:articleId HTTP/1.1
+GET http://localhost:3000/articles/:articleId HTTP/1.1
+DELETE http://localhost:3000/articles/:articleId HTTP/1.1
 
-GET http://localhost:3000/article/all HTTP/1.1
+GET http://localhost:3000/articles/all HTTP/1.1
 
 
 # 词卡
-POST http://localhost:3000/wordCard HTTP/1.1
-PUT http://localhost:3000/wordCard/:word HTTP/1.1
+POST http://localhost:3000/wordCards HTTP/1.1
+PUT http://localhost:3000/wordCards/:word HTTP/1.1
 {
 	"word": "运维",
 	"englishWord": "Ops",
@@ -26,15 +26,15 @@ PUT http://localhost:3000/wordCard/:word HTTP/1.1
 	"content": "嘿都是嘿哈很好很好很好"
 }
 
-GET http://localhost:3000/wordCard/:word HTTP/1.1
-DELETE http://localhost:3000/wordCard/:word HTTP/1.1
+GET http://localhost:3000/wordCards/:word HTTP/1.1
+DELETE http://localhost:3000/wordCards/:word HTTP/1.1
 
-GET http://localhost:3000/wordCard/all HTTP/1.1
+GET http://localhost:3000/wordCards/all HTTP/1.1
 
 
 # 周报
 # 创建周报（仅测试）
-POST http://localhost:3000/weekly HTTP/1.1
+POST http://localhost:3000/weeklies HTTP/1.1
 {
 	"username": "benwwchen",
 	"article": "58dcafe9b6e16f62edfd1fcf",
@@ -58,7 +58,7 @@ POST http://localhost:3000/weekly HTTP/1.1
 }
 
 # 获取最新周报
-GET http://localhost:3000/weekly HTTP/1.1
+GET http://localhost:3000/weeklies HTTP/1.1
 {
   "code": 200,
   "enmsg": "ok",
@@ -204,7 +204,7 @@ GET http://localhost:3000/weekly HTTP/1.1
 }
 
 # 分享周报
-PUT http://localhost:3000/weekly/share/:weeklyId HTTP/1.1
+PUT http://localhost:3000/weeklies/share/:weeklyId HTTP/1.1
 {
     "public": true
 }

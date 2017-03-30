@@ -8,15 +8,27 @@ import { checkLogin } from './middlewares'
 
 let router = express.Router()
 
-function md5 (text) {
-  return crypto.createHash('md5').update(text).digest('hex')
+function sha256 (text) {
+  return crypto.createHash('sha256').update(text).digest('hex')
 };
+
+let salt = 'sanxing'
 
 // 注册功能
 router.post('/', async function (req, res, next) {
   try {
     let username = req.body.username
-    let password = md5(req.body.password)
+    let password = req.body.password
+
+    // 校验
+    if (!(username.length >= 1 && username.length <= 10)) {
+      throw new Error('名字请限制在 1-10 个字符');
+    }
+    if (password.length < 6) {
+      throw new Error('密码至少 6 个字符');
+    }
+    
+    password = sha256(username + password + salt)
     let user = await UserModel.signUp(username, password)
     resHandler(res, user, 201)
   } catch (err) {
@@ -29,10 +41,10 @@ router.post('/', async function (req, res, next) {
 })
 
 // 登录功能
-router.post('/signin', async function (req, res, next) {
+router.post('/session', async function (req, res, next) {
   try {
     let username = req.body.username
-    let password = md5(req.body.password)
+    let password = sha256(username + req.body.password + salt)
     let user = await UserModel.getUser(username)
     // 未注册过
     if (!user) {
@@ -50,7 +62,7 @@ router.post('/signin', async function (req, res, next) {
 })
 
 // 登出功能
-router.get('/logout', checkLogin, async function (req, res, next) {
+router.delete('/session', checkLogin, async function (req, res, next) {
   try {
     req.session.destroy(function (err) {
       if (err) throw err
@@ -64,10 +76,10 @@ router.get('/logout', checkLogin, async function (req, res, next) {
 // 修改密码
 router.put('/password', checkLogin, async function (req, res, next) {
   try {
-    let oldPassword = md5(req.body.oldPassword)
-    let newPassword = md5(req.body.newPassword)
     let username = req.session.username
-
+    let oldPassword = sha256(username + req.body.oldPassword + salt)
+    let newPassword = sha256(username + req.body.newPassword + salt)
+    
     let user = await UserModel.changeUserPassword(username, oldPassword, newPassword)
 
     if (user) {
@@ -107,7 +119,7 @@ router.get('/tags', checkLogin, async function (req, res, next) {
   }
 })
 
-router.post('/likes/questions', checkLogin, async function (req, res, next) {
+router.post('/favorite/questions', checkLogin, async function (req, res, next) {
   try {
     let username = req.session.username
     let questionId = req.body.questionId
@@ -119,7 +131,7 @@ router.post('/likes/questions', checkLogin, async function (req, res, next) {
   }
 })
 
-router.get('/likes/questions', checkLogin, async function (req, res, next) {
+router.get('/favorite/questions', checkLogin, async function (req, res, next) {
   try {
     let username = req.session.username
     let questions = await QuestionModel.getLikeQuestions(username)
@@ -129,10 +141,10 @@ router.get('/likes/questions', checkLogin, async function (req, res, next) {
   }
 })
 
-router.delete('/likes/questions', checkLogin, async function (req, res, next) {
+router.delete('/favorite/questions/:questionId', checkLogin, async function (req, res, next) {
   try {
     let username = req.session.username
-    let questionId = req.body.questionId
+    let questionId = req.params.questionId
     await UserModel.deleteLikeQuestion(username, questionId)
     await QuestionModel.changeLikeCounter(questionId, -1)
     resHandler(res, null, 204)
@@ -141,7 +153,7 @@ router.delete('/likes/questions', checkLogin, async function (req, res, next) {
   }
 })
 
-router.post('/likes/answers', checkLogin, async function (req, res, next) {
+router.post('/favorite/answers', checkLogin, async function (req, res, next) {
   try {
     let username = req.session.username
     let answerId = req.body.answerId
@@ -153,7 +165,7 @@ router.post('/likes/answers', checkLogin, async function (req, res, next) {
   }
 })
 
-router.get('/likes/answers', checkLogin, async function (req, res, next) {
+router.get('/favorite/answers', checkLogin, async function (req, res, next) {
   try {
     let username = req.session.username
     let answers = await AnswerModel.getLikeAnswers(username)
@@ -163,10 +175,10 @@ router.get('/likes/answers', checkLogin, async function (req, res, next) {
   }
 })
 
-router.delete('/likes/answers', checkLogin, async function (req, res, next) {
+router.delete('/favorite/answers/:answerId', checkLogin, async function (req, res, next) {
   try {
     let username = req.session.username
-    let answerId = req.body.answerId
+    let answerId = req.params.answerId
     await UserModel.deleteLikeAnswer(username, answerId)
     await AnswerModel.changeLikeCounter(answerId, -1)
     resHandler(res, null, 204)

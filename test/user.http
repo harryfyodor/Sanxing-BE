@@ -12,7 +12,7 @@ content-type: application/json
 ###
 
 # 尝试登录-未注册
-POST http://localhost:3000/users/signin HTTP/1.1
+POST http://localhost:3000/users/session HTTP/1.1
 content-type: application/json
 
 {
@@ -23,7 +23,7 @@ content-type: application/json
 ###
 
 # 尝试登录-密码错误
-POST http://localhost:3000/users/signin HTTP/1.1
+POST http://localhost:3000/user/session HTTP/1.1
 content-type: application/json
 
 {
@@ -34,7 +34,7 @@ content-type: application/json
 ###
 
 # 尝试登录-密码正确
-POST http://localhost:3000/users/signin HTTP/1.1
+POST http://localhost:3000/user/session HTTP/1.1
 content-type: application/json
 
 {
@@ -45,12 +45,12 @@ content-type: application/json
 ###
 
 # 尝试登出
-GET http://localhost:3000/users/logout HTTP/1.1
+DELETE http://localhost:3000/user/session HTTP/1.1
 
 ###
 
 # 尝试更改密码-密码错误
-PUT http://localhost:3000/users/password HTTP/1.1
+PUT http://localhost:3000/user/password HTTP/1.1
 content-type: application/json
 
 {
@@ -61,7 +61,7 @@ content-type: application/json
 ###
 
 # 尝试更改密码-成功修改-改完记得改回去以下次测试
-PUT http://localhost:3000/users/password HTTP/1.1
+PUT http://localhost:3000/user/password HTTP/1.1
 content-type: application/json
 
 {
@@ -72,7 +72,7 @@ content-type: application/json
 ###
 
 # 尝试设置标签
-PUT http://localhost:3000/users/tags HTTP/1.1
+PUT http://localhost:3000/user/tags HTTP/1.1
 content-type: application/json
 
 {
@@ -82,12 +82,12 @@ content-type: application/json
 ###
 
 # 尝试获取标签
-GET http://localhost:3000/users/tags HTTP/1.1
+GET http://localhost:3000/user/tags HTTP/1.1
 
 ###
 
 # 尝试添加喜欢的问题
-POST http://localhost:3000/users/likes/questions HTTP/1.1
+POST http://localhost:3000/user/favorite/questions HTTP/1.1
 content-type: application/json
 
 {
@@ -97,12 +97,12 @@ content-type: application/json
 ###
 
 # 尝试获取喜欢的问题
-GET http://localhost:3000/users/likes/questions HTTP/1.1
+GET http://localhost:3000/user/favorite/questions HTTP/1.1
 
 ###
 
 # 尝试删除喜欢的问题
-DELETE http://localhost:3000/users/likes/questions HTTP/1.1
+DELETE http://localhost:3000/user/favorite/questions HTTP/1.1
 content-type: application/json
 
 {
@@ -112,7 +112,7 @@ content-type: application/json
 ###
 
 # 尝试添加喜欢的回答
-POST http://localhost:3000/users/likes/answers HTTP/1.1
+POST http://localhost:3000/user/favorite/answers HTTP/1.1
 content-type: application/json
 
 {
@@ -122,12 +122,12 @@ content-type: application/json
 ###
 
 # 尝试获取喜欢的回答
-GET http://localhost:3000/users/likes/answers HTTP/1.1
+GET http://localhost:3000/user/favorite/answers HTTP/1.1
 
 ###
 
 # 尝试删除喜欢的回答
-DELETE http://localhost:3000/users/likes/answers HTTP/1.1
+DELETE http://localhost:3000/user/favorite/answers HTTP/1.1
 content-type: application/json
 
 {
