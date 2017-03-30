@@ -29,4 +29,14 @@ router.put('/share/:weeklyId', checkLogin, async function (req, res, next) {
   }
 })
 
+// (仅测试用)创建周报
+router.post('/', async function (req, res, next) {
+  try {
+    let weekly = await WeeklyModel.addWeekly(req.body)
+    resHandler(res, weekly, 201)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
 export default router
