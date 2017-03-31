@@ -143,6 +143,19 @@ export default {
 
   // 获取所有每日问题（管理）
   getAllDaliyQuestion: () => Question.find({
-    type: 'daliy'
-  })
+    type: 'daily'
+  }).sort({ 
+    date : -1 
+  }),
+
+  // 更新每日问题（管理）
+  updateQuestion: (questionId, data) => {
+    return Question.findOneAndUpdate({
+      _id: questionId
+    }, {
+      $set: data
+    }, {
+      new: true
+    })
+  }
 }

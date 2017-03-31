@@ -36,9 +36,20 @@ router.get('/broadcast', async function (req, res, next) {
   }
 })
 
-router.get('/broadcast/all', async function (req, res, next) {
+// 获取所有已经公布的广播问题（管理）
+router.get('/broadcast/public', async function (req, res, next) {
   try {
     let questions = await QuestionModel.getAllPublicBroadcastQuestion()
+    resHandler(res, questions)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+// 获取所有未公布的广播问题（管理）
+router.get('/broadcast/notpublic', async function (req, res, next) {
+  try {
+    let questions = await QuestionModel.getAllNotPublicBroadcastQuestion()
     resHandler(res, questions)
   } catch (err) {
     errHandler(res, err)
@@ -55,6 +66,7 @@ router.get('/:questionId', async function (req, res, next) {
   }
 })
 
+// 添加问题（管理）
 router.post('/', async function (req, res, next) {
   try {
     let question = await QuestionModel.addQuestion(req.body)
@@ -64,6 +76,7 @@ router.post('/', async function (req, res, next) {
   }
 })
 
+// 删除问题（管理）
 router.delete('/', async function (req, res, next) {
   try {
     let questionId = req.body.questionId
@@ -75,9 +88,22 @@ router.delete('/', async function (req, res, next) {
 })
 
 // 获取全部每日问题（管理）
-router.get('/daliy/all', async function (req, res, next) {
+router.get('/daily/all', async function (req, res, next) {
   try {
     let questions = await QuestionModel.getAllDaliyQuestion()
+    resHandler(res, questions)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
+// 更改每日问题（管理）
+router.post('/update', async function (req, res, next) {
+  try {
+    let questionId = req.body.questionId,
+        data = req.body.data
+    
+    let questions = await QuestionModel.updateQuestion(questionId, data)
     resHandler(res, questions)
   } catch (err) {
     errHandler(res, err)

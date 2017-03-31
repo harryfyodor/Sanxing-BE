@@ -4,7 +4,7 @@ import { resHandler, errHandler } from '../utils/respondUtils'
 
 let router = express.Router()
 
-// 全部标签（管理）
+// 新建标签（管理）
 router.post('/', async function(req, res, next) {
   try {
     let tag = req.body.tag
