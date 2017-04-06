@@ -9,6 +9,10 @@ let router = express.Router()
 // 提交回答
 router.post('/', checkLogin, async function (req, res, next) {
   try {
+    req.body.answerer = {
+      username: req.session.username,
+      avatar: req.session.avatar
+    }
     let answer = await AnswerModel.addAnswer(req.body)
     if (req.body.todayQuestionId) {
       await QuestionModel.setAnswered(req.body.todayQuestionId, answer._id)

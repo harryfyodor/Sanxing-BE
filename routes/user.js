@@ -30,7 +30,14 @@ router.post('/', async function (req, res, next) {
     
     password = sha256(username + password + salt)
 
-    let user = await UserModel.signUp(username, password)
+    await UserModel.signUp(username, password)
+
+    // 自动登录
+    let user = await UserModel.getUser(username)
+    delete user.password
+    req.session.username = username
+    req.session._id = user._id
+
     resHandler(res, user, 201)
   } catch (err) {
     if (err.code === 11000) {  // index重复了

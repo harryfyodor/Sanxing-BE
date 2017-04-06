@@ -25,6 +25,7 @@ app.all('*', function(req, res, next) {
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(bodyParser.json());
 
 app.use(session({
   store: new RedisStore(config.redisOptions),

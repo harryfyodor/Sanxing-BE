@@ -5,6 +5,7 @@ import TagRouter from './tag'
 import ArticleRouter from './article'
 import WordCardRouter from './wordCard'
 import WeeklyRouter from './weekly'
+import PictureRouter from './picture'
 
 export default function (app) {
   app.get('/', function (req, res) {
@@ -17,4 +18,5 @@ export default function (app) {
   app.use('/articles', ArticleRouter)
   app.use('/wordCards', WordCardRouter)
   app.use('/weeklies', WeeklyRouter)
+  app.use('/picture', PictureRouter)
 }

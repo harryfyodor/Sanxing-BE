@@ -20,7 +20,7 @@ router.put('/broadcast', async function (req, res, next) {
   try {
     let questionId = req.body.questionId
     let isPublic = req.body.public
-    let question = await QuestionModel.changeBroadcastStatus(questionId, isPublic)
+    let question = await QuestionModel.changeBroadcastStatus(questionId, true)
     resHandler(res, question)
   } catch (err) {
     errHandler(res, err)
