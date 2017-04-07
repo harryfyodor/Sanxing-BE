@@ -13,6 +13,12 @@ export default {
     type: 'daily'
   }),
 
+  getAnswerHistory: (username) => Answer.find({
+    answerer: {
+      username
+    }
+  }),
+
   getDailyAnswerForQuestion: (username, questionId) => Answer.find({
     answerer: {
       username

@@ -25,6 +25,17 @@ router.post('/', checkLogin, async function (req, res, next) {
   }
 })
 
+// 获取回答历史
+router.get('/history', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let answers = await AnswerModel.getAnswerHistory(username)
+    resHandler(res, answers)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
 // 获取每日回答
 router.get('/daily', checkLogin, async function (req, res, next) {
   try {
