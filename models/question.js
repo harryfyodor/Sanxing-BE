@@ -21,7 +21,7 @@ export default {
             }
           }, {
             tags: {
-              $size: 0
+              $in: ["tag2"]
             }
           }]
         }]}).sample(3)
