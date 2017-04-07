@@ -43,6 +43,11 @@ export default {
     return todayQuestions
   },
 
+  getTodayQuestionByQuestionId: async (questionId) => {
+    let todayQuestion = await TodayQuestion.findById(questionId)
+    return todayQuestion
+  },
+
   setAnswered: (id, answerId) => TodayQuestion.update({
     _id: id
   }, {

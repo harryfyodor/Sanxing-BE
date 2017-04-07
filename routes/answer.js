@@ -14,8 +14,10 @@ router.post('/', checkLogin, async function (req, res, next) {
       avatar: req.session.avatar
     }
     let answer = await AnswerModel.addAnswer(req.body)
-    if (req.body.todayQuestionId) {
-      await QuestionModel.setAnswered(req.body.todayQuestionId, answer._id)
+    // set answered if it's a today question
+    let todayQuestion = await QuestionModel.getTodayQuestionByQuestionId(req.body.questionId)
+    if (todayQuestion) {
+      await QuestionModel.setAnswered(todayQuestion._id, answer._id)
     }
     resHandler(res, answer, 201)
   } catch (err) {
