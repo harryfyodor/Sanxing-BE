@@ -43,7 +43,7 @@ router.post('/', async function (req, res, next) {
     if (err.code === 11000) {  // index重复了
       errHandler(res, err, 400, 'duplicate username', '用户名已被注册')
     } else {
-      errHandler(res, err)
+      errHandler(res, err, 400, err.message, err.message)
     }
   }
 })

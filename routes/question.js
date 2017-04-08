@@ -29,7 +29,7 @@ router.put('/broadcast', async function (req, res, next) {
 
 router.get('/broadcast', async function (req, res, next) {
   try {
-    let questions = await QuestionModel.getBroadcastQuestion()
+    let questions = await QuestionModel.getAllPublicBroadcastQuestion()
     resHandler(res, questions)
   } catch (err) {
     errHandler(res, err)
