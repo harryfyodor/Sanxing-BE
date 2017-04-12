@@ -17,6 +17,8 @@ export default {
     answerer: {
       username
     }
+  }).sort({ 
+    date : -1 
   }),
 
   getDailyAnswerForQuestion: (username, questionId) => Answer.find({
