@@ -30,9 +30,20 @@ export default {
   }),
 
   getBroadcastAnswerForQuestion: (questionId) => Answer.find({
-    type: 'broadcast',
     questionId
+  }).sort({ 
+    date : -1 
   }),
+
+  isAnswer: async (username, questionId) => {
+    let isAnswer = await Answer.find({
+      answerer: {
+        username
+      },
+      questionId
+    }).count()
+    return isAnswer > 0
+  },
 
   getAnswer: (answerId) => Answer.findOne({
     _id: answerId

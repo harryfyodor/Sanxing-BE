@@ -69,6 +69,16 @@ router.get('/broadcast/:questionId', checkLogin, async function (req, res, next)
   }
 })
 
+// 检查某个广播问题是否回答过
+router.get('/broadcast/isAnswer/:questionId', async function (req, res, next) {
+  try {
+    let isAnswer = await AnswerModel.isAnswer(req.session.username, req.params.questionId)
+    resHandler(res, isAnswer)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
 router.get('/:answerId', checkLogin, async function (req, res, next) {
   try {
     let answerId = req.params.answerId
