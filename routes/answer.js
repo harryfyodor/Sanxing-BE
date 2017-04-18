@@ -59,11 +59,25 @@ router.get('/daily/:questionId', checkLogin, async function (req, res, next) {
   }
 })
 
+// 获取某个广播问题所有公开回答
 router.get('/broadcast/:questionId', checkLogin, async function (req, res, next) {
   try {
+    let username = req.session.username
     let questionId = req.params.questionId
     let answers = await AnswerModel.getBroadcastAnswerForQuestion(questionId)
-    resHandler(res, answers)
+    // 添加每个回答是否喜欢过的属性
+    let favoriteAnswers = await AnswerModel.getLikeAnswers(username)
+    let returnAnswers = answers.map((answer) => {
+      let favorite = false
+      favoriteAnswers.forEach(function(favoriteAnswer) {
+        if (answer.id == favoriteAnswer.id) favorite = true
+      }, this)
+      return {
+        ...answer.toObject(),
+        isFavorite: favorite
+      }
+    })
+    resHandler(res, returnAnswers)
   } catch (err) {
     errHandler(res, err)
   }

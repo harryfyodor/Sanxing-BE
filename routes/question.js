@@ -56,6 +56,21 @@ router.get('/broadcast/notpublic', async function (req, res, next) {
   }
 })
 
+// 检查某个广播问题是否收藏过
+router.get('/broadcast/isFavorite/:questionId', async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let questions = await QuestionModel.getLikeQuestions(username)
+    let isFavorite = false
+    questions.forEach(function(question) {
+      if (question._id == req.params.questionId) isFavorite = true
+    }, this);
+    resHandler(res, isFavorite)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
 router.get('/:questionId', async function (req, res, next) {
   try {
     let questionId = req.params.questionId
