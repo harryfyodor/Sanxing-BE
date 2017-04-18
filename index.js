@@ -5,6 +5,9 @@ import session from 'express-session'
 import connect from 'connect-redis'
 import bodyParser from 'body-parser'
 import routes from './routes'
+import moment from 'moment'
+
+moment.locale('zh-cn');
 
 let env = process.env.NODE_ENV || 'default'
   , config = require('./config.'+env);
