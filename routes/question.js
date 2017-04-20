@@ -56,7 +56,7 @@ router.get('/broadcast/notpublic', async function (req, res, next) {
   }
 })
 
-// 检查某个广播问题是否收藏过
+// 检查某个广播问题是否喜欢过
 router.get('/broadcast/isFavorite/:questionId', async function (req, res, next) {
   try {
     let username = req.session.username

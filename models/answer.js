@@ -29,6 +29,13 @@ export default {
     questionId
   }),
 
+  getPublicDailyAnswerForQuestion: (questionId) => Answer.find({
+    questionId,
+    public: true
+  }).sort({ 
+    date : -1 
+  }),
+
   getBroadcastAnswerForQuestion: (questionId) => Answer.find({
     questionId
   }).sort({ 
