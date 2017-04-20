@@ -8,10 +8,33 @@ export default {
   getTodayQuestion: async (username) => {
     let user = await UserModel.getUser(username, 'tags', 'lastUpdate', 'favoriteQuestions')
     let lastUpdate = moment(user.lastUpdate)
-    if (lastUpdate.isBefore(moment().startOf('day'))) {  // 需要重新生成
+    if (lastUpdate.isBefore(moment().utcOffset(8).startOf('day'))) {  // 需要重新生成
       console.log('重新生成每日问题！')
       await TodayQuestion.remove({ username })
-      let questions = await Question.aggregate().match({
+      let questions
+      if (user.tags.length != 0) {
+        questions = await Question.aggregate().match({
+        $and: [{
+          type: 'daily'
+        }, {
+          tags: {
+            $in: user.tags
+        }
+        }]}).sample(3)
+      } else {
+        // user has no tags, sample from "tag2"
+        questions = await Question.aggregate().match({
+        $and: [{
+          type: 'daily'
+        }, {
+          tags: {
+            $in: ["tag2"]
+        }
+        }]}).sample(3)
+      }
+      if (questions.length < 3) {
+        // user has not enough tags, sample from both user tags and "tag2"
+        questions = await Question.aggregate().match({
         $and: [{
           type: 'daily'
         }, {
@@ -25,6 +48,7 @@ export default {
             }
           }]
         }]}).sample(3)
+      }
       // console.log(questions)
       let todayQuestions = questions.map((question, index) => {
         return {
@@ -40,6 +64,50 @@ export default {
       await UserModel.setLastUpdate(username, new Date())
     }
     let todayQuestions = await TodayQuestion.find({username})
+    return todayQuestions
+  },
+
+  reGenerateTodayQuestions: async (username) => {
+    let user = await UserModel.getUser(username, 'tags')
+    // 直接重新生成
+    console.log('手动重新生成每日问题！')
+    await TodayQuestion.remove({ username })
+    let questions
+    if (user.tags.length != 0) {
+      questions = await Question.aggregate().match({
+      $and: [{
+        type: 'daily'
+      }, {
+        tags: {
+          $in: user.tags
+      }
+      }]}).sample(3)
+    } else {
+      // user has no tags, sample from "tag2"
+      questions = await Question.aggregate().match({
+      $and: [{
+        type: 'daily'
+      }, {
+        tags: {
+          $in: ["tag2"]
+      }
+      }]}).sample(3)
+    }
+    // console.log(questions)
+    let todayQuestions = questions.map((question, index) => {
+      return {
+        questionId: question._id,
+        username,
+        content: question.content,
+        tags: question.tags,
+        time: index === 0 ? 'morning' : (index === 1 ? 'noon' : 'evening'),
+        answered: false
+      }
+    })
+    await TodayQuestion.create(todayQuestions)
+    await UserModel.setLastUpdate(username, new Date())
+    
+    todayQuestions = await TodayQuestion.find({username})
     return todayQuestions
   },
 

@@ -16,6 +16,18 @@ router.get('/today', checkLogin, async function (req, res, next) {
   }
 })
 
+// 手动重新生成今日问题
+router.get('/manual/today', checkLogin, async function (req, res, next) {
+  try {
+    let username = req.session.username
+    let todayQuestions = await QuestionModel.reGenerateTodayQuestions(username)
+    let updatedQuestions = await QuestionModel.getUpdatedQuestion(username, todayQuestions)
+    resHandler(res, updatedQuestions)
+  } catch (err) {
+    errHandler(res, err)
+  }
+})
+
 router.put('/broadcast', async function (req, res, next) {
   try {
     let questionId = req.body.questionId
