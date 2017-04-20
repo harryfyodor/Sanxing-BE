@@ -22,18 +22,18 @@ export default {
         }
         }]}).sample(3)
       } else {
-        // user has no tags, sample from "tag2"
+        // user has no tags, sample from "购物"
         questions = await Question.aggregate().match({
         $and: [{
           type: 'daily'
         }, {
           tags: {
-            $in: ["tag2"]
+            $in: ["购物"]
         }
         }]}).sample(3)
       }
       if (questions.length < 3) {
-        // user has not enough tags, sample from both user tags and "tag2"
+        // user has not enough tags, sample from both user tags and "购物"
         questions = await Question.aggregate().match({
         $and: [{
           type: 'daily'
@@ -44,7 +44,7 @@ export default {
             }
           }, {
             tags: {
-              $in: ["tag2"]
+              $in: ["购物"]
             }
           }]
         }]}).sample(3)
@@ -89,9 +89,26 @@ export default {
         type: 'daily'
       }, {
         tags: {
-          $in: ["tag2"]
+          $in: ["购物"]
       }
       }]}).sample(3)
+    }
+    if (questions.length < 3) {
+        // user has not enough tags, sample from both user tags and "购物"
+        questions = await Question.aggregate().match({
+        $and: [{
+          type: 'daily'
+        }, {
+          $or: [{
+            tags: {
+              $in: user.tags
+            }
+          }, {
+            tags: {
+              $in: ["购物"]
+            }
+          }]
+        }]}).sample(3)
     }
     // console.log(questions)
     let todayQuestions = questions.map((question, index) => {
