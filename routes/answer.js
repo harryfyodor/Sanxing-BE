@@ -15,7 +15,7 @@ router.post('/', checkLogin, async function (req, res, next) {
     }
     let answer = await AnswerModel.addAnswer(req.body)
     // set answered if it's a today question
-    let todayQuestion = await QuestionModel.getTodayQuestionByQuestionId(req.body.questionId)
+    let todayQuestion = await QuestionModel.getTodayQuestionByQuestionId(req.session.username, req.body.questionId)
     if (todayQuestion) {
       await QuestionModel.setAnswered(todayQuestion._id, answer._id)
     }

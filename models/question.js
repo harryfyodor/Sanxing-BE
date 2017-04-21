@@ -128,8 +128,8 @@ export default {
     return todayQuestions
   },
 
-  getTodayQuestionByQuestionId: async (questionId) => {
-    let todayQuestion = await TodayQuestion.findById(questionId)
+  getTodayQuestionByQuestionId: async (username, questionId) => {
+    let todayQuestion = await TodayQuestion.findOne({username, questionId})
     return todayQuestion
   },
 
@@ -163,6 +163,10 @@ export default {
     let updatedQuestions = results.map((result, index) => {
       let todayQuestion = todayQuestions[index]
       let object = todayQuestion.toObject()
+      // swap questionId and _id for compatibility
+      let questionId = object.questionId
+      object.questionId = object._id
+      object._id = questionId
       return {
         ...object,
         answers: result.answers,
